@@ -17,9 +17,11 @@ Depending on your operating system you can choose to install Elastic Stack from 
 | :ref:`DEB packages <elastic_server_deb>`                               | Install Elastic Stack on Debian/Ubuntu.                     |
 +------------------------------------------------------------------------+-------------------------------------------------------------+
 
+
 .. toctree::
    :hidden:
    :maxdepth: 2
 
    elastic_server_rpm
    elastic_server_deb
+   xpack_rbac
