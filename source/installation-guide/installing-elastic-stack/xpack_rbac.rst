@@ -381,3 +381,40 @@ You should see a list with many options, disable the xPackMonitoring.showBanner 
     :title: Data flow
     :align: center
     :width: 100%
+
+Need different index pattern
+----------------------------
+
+If you have a different environment with indices such `psg-alerts-*` the above tutorial won't work at all for you.
+Create a new role named `psg-user` for your standard user who is going to use these indices, that new role ables your user to fetch 
+data from these indices:
+
+    .. code-block:: console
+
+        # curl -XPOST "http://localhost:9200/_xpack/security/role/psg-user" -H 'Content-Type: application/json' -d'
+        {
+        "cluster": [],
+        "indices": [
+            {
+            "names": [ "psg-alerts-*" ],
+            "privileges": ["read"]
+            }
+        ]
+        }' -u elastic:elastic_password
+
+        {"role":{"created":true}}
+
+Now assign it to your desired user(s) as follow:
+
+    .. code-block:: console
+
+        # curl -XPUT "http://localhost:9200/_xpack/security/user/john" -H 'Content-Type: application/json' -d'
+        {
+            "password": "johnjohn",
+            "roles":["wazuh-basic","psg-user"],
+            "full_name":"John",
+            "email":"john@wazuh.com"                           
+        }' -u elastic:elastic_password
+
+        {"user":{"created":false}} // If the user did exist previously
+
