@@ -9,7 +9,7 @@ The default X-Pack configuration uses the **elastic** user to make all. This is 
 .. warning:: The **elastic** user is a superuser so it's better to create users with the right roles.
 
 Preparation
------------------
+------------
 
 .. note:: Follow the official Elastic guide https://www.elastic.co/downloads/x-pack for a more in deep explanation.
 
@@ -17,40 +17,46 @@ On a default installation you could follow the next steps to prepare the environ
 
 1. Install X-Pack plugin for Elasticsearch:
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # /usr/share/elasticsearch/bin/elasticsearch-plugin install x-pack
+    # /usr/share/elasticsearch/bin/elasticsearch-plugin install x-pack
+    
 
 2. Restart Elasticsearch:
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # systemctl start elasticsearch
+    # systemctl start elasticsearch
+
 
 3. Generate the credentials and note down them:
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # /usr/share/elasticsearch/bin/x-pack/setup-passwords auto
+    # /usr/share/elasticsearch/bin/x-pack/setup-passwords auto
+
 
 4. Install X-Pack plugin for Kibana:
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # /usr/share/kibana/bin/kibana-plugin install x-pack
+    # /usr/share/kibana/bin/kibana-plugin install x-pack
+
 
 5. Set temporary the `elastic` user for Kibana, edit /etc/kibana/kibana.yml as follow:
 
-    .. code-block:: console
+  .. code-block:: console
 
-        elasticsearch.username: "elastic"
-        elasticsearch.password: "elastic_password_from_step3"
+    elasticsearch.username: "elastic"
+    elasticsearch.password: "elastic_password_from_step3"
+
 
 6. Restart Kibana
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # systemctl restart kibana
+    # systemctl restart kibana
+
 
 7. Login the Kibana UI using the `elastic` user too.
 
@@ -88,8 +94,8 @@ We need to create a user to be used by Kibana to connect to Elasticsearch. It al
     |wazuh-*                                                                 | **all**                                                     |
     +------------------------------------------------------------------------+-------------------------------------------------------------+
 
-Wazuh API manager user
-------------------
+Wazuh admin user
+----------------------
 
 We need a new user who will be able to login through the Kibana UI and add/delete Wazuh API entries too. 
 
@@ -124,13 +130,13 @@ We need a new user who will be able to login through the Kibana UI and add/delet
     +------------------------------------------------------------------------+-------------------------------------------------------------+
 
 Wazuh standard user
-------------------
+--------------------
 
 Finally we need one or more users who will be able to login through the Kibana UI with read privileges only. This user only needs
 to use the wazuh-basic role. 
 
 How your environment should looks like?
-------------------
+---------------------------------------
 
 Take a look at the following table, it should looks like your environment:
 
@@ -139,217 +145,226 @@ Take a look at the following table, it should looks like your environment:
 +========================================================================+=============================================================+
 |Kibana system user                                                      | **wazuh-admin**, **kibana_system**                          |
 +------------------------------------------------------------------------+-------------------------------------------------------------+
-|Wazuh API manager user                                                  | **wazuh-basic**, **wazuh-api-admin**                        |
+|Wazuh admin user                                                        | **wazuh-basic**, **wazuh-api-admin**                        |
 +------------------------------------------------------------------------+-------------------------------------------------------------+
 |Wazuh standard user #1, Wazuh standard user #2...                       | **wazuh-basic**                                             |
 +------------------------------------------------------------------------+-------------------------------------------------------------+
 
 How to configure through Kibana with the `elastic` user
-------------------
+-------------------------------------------------------
 
 1. Login on Kibana using the `elastic` user:
 
-    .. thumbnail:: ../../images/x-pack/xpack1.png
-        :title: Configure through Kibana 1
-        :align: center
-        :width: 40%
+  .. thumbnail:: ../../images/x-pack/xpack1.png
+      :title: Configure through Kibana 1
+      :align: center
+      :width: 40%
 
 2. Go to Management > Security > Roles:
 
-    .. thumbnail:: ../../images/x-pack/xpack2.png
-        :title: Configure through Kibana 2
-        :align: center
-        :width: 100%
+  .. thumbnail:: ../../images/x-pack/xpack2.png
+      :title: Configure through Kibana 2
+      :align: center
+      :width: 100%
 
 3. Creating the **wazuh-admin** role:
 
-    .. thumbnail:: ../../images/x-pack/xpack3.png
-        :title: Configure through Kibana 3
-        :align: center
-        :width: 100%
+  .. thumbnail:: ../../images/x-pack/xpack3.png
+      :title: Configure through Kibana 3
+      :align: center
+      :width: 100%
 
 4. Creating the **wazuh-basic** role:
 
-    .. thumbnail:: ../../images/x-pack/xpack4.png
-        :title: Configure through Kibana 4
-        :align: center
-        :width: 100%
+  .. thumbnail:: ../../images/x-pack/xpack4.png
+      :title: Configure through Kibana 4
+      :align: center
+      :width: 100%
 
 5. Creating the **wazuh-api-admin** role:
 
-    .. thumbnail:: ../../images/x-pack/xpack5.png
-        :title: Configure through Kibana 5
-        :align: center
-        :width: 100%
+  .. thumbnail:: ../../images/x-pack/xpack5.png
+      :title: Configure through Kibana 5
+      :align: center
+      :width: 100%
 
 6. Go to Management > Security > Users:
 
-    .. thumbnail:: ../../images/x-pack/xpack6.png
-        :title: Configure through Kibana 6
-        :align: center
-        :width: 100%
+  .. thumbnail:: ../../images/x-pack/xpack6.png
+      :title: Configure through Kibana 6
+      :align: center
+      :width: 100%
 
-7. Creating the Wazuh API manager user:
+7. Creating the Wazuh admin user:
 
-    .. thumbnail:: ../../images/x-pack/xpack7.png
-        :title: Configure through Kibana 7
-        :align: center
-        :width: 100%
+  .. thumbnail:: ../../images/x-pack/xpack7.png
+      :title: Configure through Kibana 7
+      :align: center
+      :width: 100%
 
 8. Creating a standard user:
 
-    .. note:: This user is not able to add/remove/edit a Wazuh API, use the Wazuh API manager user instead (step 7).
+  .. note:: This user is not able to add/remove/edit a Wazuh API, use the Wazuh admin user instead (step 7).
 
-    .. thumbnail:: ../../images/x-pack/xpack8.png
-        :title: Configure through Kibana 8
-        :align: center
-        :width: 100%
+  .. thumbnail:: ../../images/x-pack/xpack8.png
+      :title: Configure through Kibana 8
+      :align: center
+      :width: 100%
 
 9. Creating the Kibana system user:
 
-    .. note:: Ensure the password is enough strong, it will be the superuser for your environment.
+  .. note:: Ensure the password is enough strong, it will be the superuser for your environment.
 
-    .. thumbnail:: ../../images/x-pack/xpack9.png
-        :title: Configure through Kibana 9
-        :align: center
-        :width: 100%
+  .. thumbnail:: ../../images/x-pack/xpack9.png
+      :title: Configure through Kibana 9
+      :align: center
+      :width: 100%
 
 10. Set the right user on `kibana.yml` file:
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # vi /etc/kibana/kibana.yml
+    # vi /etc/kibana/kibana.yml
 
-        elasticsearch.username: "wazuhsystem"
-        elasticsearch.password: "wazuhsystem"
+    elasticsearch.username: "wazuhsystem"
+    elasticsearch.password: "wazuhsystem"
+
 
 11. Restart Kibana:
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # systemctl restart kibana
+    # systemctl restart kibana
 
 
 How to configure using the command line
------------------------------------------
+----------------------------------------
 
 .. note:: Before configure the roles and users you must to install X-Pack.
 
 1. Creating the **wazuh-admin** role:
 
-    .. code-block:: console
-    
-        # curl -XPOST "http://localhost:9200/_xpack/security/role/wazuh-admin" -H 'Content-Type: application/json' -d'
-        {
-        "cluster": [ "manage", "manage_index_templates" ],
-        "indices": [
-            {
-            "names": [ ".old-wazuh", ".wazuh", ".wazuh-version", "wazuh-*" ],
-            "privileges": ["all"]
-            }
-        ]
-        }' -u elastic:elastic_password
+  .. code-block:: console
 
-        {"role":{"created":true}}
+    # curl -XPOST "http://localhost:9200/_xpack/security/role/wazuh-admin" -H 'Content-Type: application/json' -d'
+    {
+      "cluster": [ "manage", "manage_index_templates" ],
+      "indices": [
+        {
+          "names": [ ".old-wazuh", ".wazuh", ".wazuh-version", "wazuh-*" ],
+          "privileges": ["all"]
+        }
+      ]
+    }' -u elastic:elastic_password
+
+    {"role":{"created":true}}
+
 
 2. Creating the **wazuh-basic** role:
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # curl -XPOST "http://localhost:9200/_xpack/security/role/wazuh-basic" -H 'Content-Type: application/json' -d'
+    # curl -XPOST "http://localhost:9200/_xpack/security/role/wazuh-basic" -H 'Content-Type: application/json' -d'
+    {
+      "cluster": [],
+      "indices": [
         {
-        "cluster": [],
-        "indices": [
-            {
-            "names": [ ".kibana", ".wazuh", ".wazuh-version", "wazuh-alerts-3.x-*", "wazuh-monitoring-3.x-*" ],
-            "privileges": ["read"]
-            }
-        ]
-        }' -u elastic:elastic_password
+          "names": [ ".kibana", ".wazuh", ".wazuh-version", "wazuh-alerts-3.x-*", "wazuh-monitoring-3.x-*" ],
+          "privileges": ["read"]
+        }
+      ]
+    }' -u elastic:elastic_password
 
-        {"role":{"created":true}}
+    {"role":{"created":true}}
+
 
 3. Creating the **wazuh-api-admin** role:
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # curl -XPOST "http://localhost:9200/_xpack/security/role/wazuh-api-admin" -H 'Content-Type: application/json' -d'
+    # curl -XPOST "http://localhost:9200/_xpack/security/role/wazuh-api-admin" -H 'Content-Type: application/json' -d'
+    {
+      "cluster": [],
+      "indices": [
         {
-        "cluster": [],
-        "indices": [
-            {
-            "names": [ ".wazuh" ],
-            "privileges": ["all"]
-            }
-        ]
-        }' -u elastic:elastic_password
+          "names": [ ".wazuh" ],
+          "privileges": ["all"]
+        }
+      ]
+    }' -u elastic:elastic_password
 
-        {"role":{"created":true}}
+    {"role":{"created":true}}
+
 
 4. Creating the Kibana system user:
 
-    .. note:: Ensure the password is enough strong, it will be the superuser for your environment.
+  .. note:: Ensure the password is enough strong, it will be the superuser for your environment.
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # curl -XPOST "http://localhost:9200/_xpack/security/user/wazuhsystem" -H 'Content-Type: application/json' -d'
-        {
-            "password": "wazuhsystem",
-            "roles":["wazuh-admin","kibana_system"],
-            "full_name":"Wazuh System",
-            "email":"wazuhsystem@wazuh.com"                           
-        }' -u elastic:elastic_password
+    # curl -XPOST "http://localhost:9200/_xpack/security/user/wazuhsystem" -H 'Content-Type: application/json' -d'
+    {
+      "password": "wazuhsystem",
+      "roles":["wazuh-admin","kibana_system"],
+      "full_name":"Wazuh System",
+      "email":"wazuhsystem@wazuh.com"                           
+    }' -u elastic:elastic_password
 
-        {"user":{"created":true}}
+    {"user":{"created":true}}
 
-5. Creating the Wazuh API manager user:
 
-    .. code-block:: console
+5. Creating the Wazuh admin user:
 
-        # curl -XPOST "http://localhost:9200/_xpack/security/user/jack" -H 'Content-Type: application/json' -d'
-        {
-            "password": "jackjack",
-            "roles":["wazuh-basic","wazuh-api-admin"],
-            "full_name":"Jack",
-            "email":"jack@wazuh.com"                           
-        }' -u elastic:elastic_password
+  .. code-block:: console
 
-        {"user":{"created":true}}
+    # curl -XPOST "http://localhost:9200/_xpack/security/user/jack" -H 'Content-Type: application/json' -d'
+    {
+      "password": "jackjack",
+      "roles":["wazuh-basic","wazuh-api-admin"],
+      "full_name":"Jack",
+      "email":"jack@wazuh.com"                           
+    }' -u elastic:elastic_password
+
+    {"user":{"created":true}}
+
 
 6. Creating a standard user:
 
-    .. note:: This user is not able to add/remove/edit a Wazuh API, use the Wazuh API manager user instead (step 5).
+  .. note:: This user is not able to add/remove/edit a Wazuh API, use the Wazuh admin user instead (step 5).
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # curl -XPOST "http://localhost:9200/_xpack/security/user/john" -H 'Content-Type: application/json' -d'
-        {
-            "password": "johnjohn",
-            "roles":["wazuh-basic"],
-            "full_name":"John",
-            "email":"john@wazuh.com"                           
-        }' -u elastic:elastic_password
+    # curl -XPOST "http://localhost:9200/_xpack/security/user/john" -H 'Content-Type: application/json' -d'
+    {
+      "password": "johnjohn",
+      "roles":["wazuh-basic"],
+      "full_name":"John",
+      "email":"john@wazuh.com"                           
+    }' -u elastic:elastic_password
 
-        {"user":{"created":true}}
+    {"user":{"created":true}}
+
 
 7. Set the right user on `kibana.yml` file:
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # vi /etc/kibana/kibana.yml
+    # vi /etc/kibana/kibana.yml
 
-        elasticsearch.username: "wazuhsystem"
-        elasticsearch.password: "wazuhsystem"
+    elasticsearch.username: "wazuhsystem"
+    elasticsearch.password: "wazuhsystem"
+
 
 8. Restart Kibana:
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # systemctl restart kibana
+    # systemctl restart kibana
+
 
 
 Troubles with the "Welcome to X-Pack!" banner
---------------------------------------------
+----------------------------------------------
 
 After follow every step on this tutorial, I've logged in through the Kibana UI with a Wazuh standard 
 user and I can see this banner:
@@ -367,7 +382,7 @@ If I click on the `Dismiss` button it throws an error:
     :width: 100%
 
 What's happening? The user Jack has no privileges to modify the `.kibana` index and it's fine. We need to login 
-with a higher privileges user to click on the `Dismiss` button like we did to add a Wazuh Api. We can use the Wazuh API manager user
+with a higher privileges user to click on the `Dismiss` button like we did to add a Wazuh Api. We can use the Wazuh admin user
 to do it or use the `elastic` user and go to Management > Kibana > Advanced settings as follow:
 
 .. thumbnail:: ../../images/x-pack/xpack10.png
@@ -383,43 +398,45 @@ You should see a list with many options, disable the xPackMonitoring.showBanner 
     :width: 100%
 
 Need different index pattern
-----------------------------
+-----------------------------
 
 If you have a different environment with indices such `psg-alerts-*` the above tutorial won't work at all for you.
 Create a new role named `psg-user` for your standard user who is going to use these indices, that new role ables your user to fetch 
 data from these indices:
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # curl -XPOST "http://localhost:9200/_xpack/security/role/psg-user" -H 'Content-Type: application/json' -d'
+      # curl -XPOST "http://localhost:9200/_xpack/security/role/psg-user" -H 'Content-Type: application/json' -d'
+      {
+      "cluster": [],
+      "indices": [
         {
-        "cluster": [],
-        "indices": [
-            {
-            "names": [ "psg-alerts-*" ],
-            "privileges": ["read"]
-            }
-        ]
-        }' -u elastic:elastic_password
+          "names": [ "psg-alerts-*" ],
+          "privileges": ["read"]
+        }
+      ]
+      }' -u elastic:elastic_password
 
-        {"role":{"created":true}}
+      {"role":{"created":true}}
+
 
 Now assign it to your desired user(s) as follow:
 
-    .. code-block:: console
+  .. code-block:: console
 
-        # curl -XPUT "http://localhost:9200/_xpack/security/user/john" -H 'Content-Type: application/json' -d'
-        {
-            "password": "johnjohn",
-            "roles":["wazuh-basic","psg-user"],
-            "full_name":"John",
-            "email":"john@wazuh.com"                           
-        }' -u elastic:elastic_password
+    # curl -XPUT "http://localhost:9200/_xpack/security/user/john" -H 'Content-Type: application/json' -d'
+    {
+      "password": "johnjohn",
+      "roles":["wazuh-basic","psg-user"],
+      "full_name":"John",
+      "email":"john@wazuh.com"                           
+    }' -u elastic:elastic_password
 
-        {"user":{"created":false}} // If the user did exist previously
+    {"user":{"created":false}} // If the user did exist previously
+
 
 What's happening with the index pattern selector?
--------------------------------------------------
+--------------------------------------------------
 
 Since our last Wazuh App package, the index pattern list is calculated from the server and it's filtered 
 depending on the user role. It means the user can only select the index pattern(s) who it's able to see.
