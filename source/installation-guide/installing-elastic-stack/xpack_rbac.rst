@@ -346,3 +346,38 @@ How to configure out of Kibana with the `elastic` user
     .. code-block:: console
 
         # systemctl restart kibana
+
+
+Troubles with the "Welcome to X-Pack!" banner
+--------------------------------------------
+
+After follow every step on this tutorial, I've logged in through the Kibana UI with a Wazuh standard 
+user and I can see this banner:
+
+.. thumbnail:: ../../images/x-pack/xpack12.png
+    :title: Data flow
+    :align: center
+    :width: 100%
+
+If I click on the `Dismiss` button it throws an error:
+
+.. thumbnail:: ../../images/x-pack/xpack13.png
+    :title: Data flow
+    :align: center
+    :width: 100%
+
+What's happening? The user Jack has no privileges to modify the `.kibana` index and it's fine. We need to login 
+with a higher privileges user to click on the `Dismiss` button like we did to add a Wazuh Api. We can use the Wazuh API manager user
+to do it or use the `elastic` user and go to Management > Kibana > Advanced settings as follow:
+
+.. thumbnail:: ../../images/x-pack/xpack10.png
+    :title: Data flow
+    :align: center
+    :width: 100%
+
+You should see a list with many options, disable the xPackMonitoring.showBanner option as follow:
+
+.. thumbnail:: ../../images/x-pack/xpack11.png
+    :title: Data flow
+    :align: center
+    :width: 100%
