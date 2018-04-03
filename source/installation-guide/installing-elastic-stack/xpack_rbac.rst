@@ -150,49 +150,49 @@ How to configure through Kibana with the `elastic` user
 1. Login on Kibana using the `elastic` user:
 
     .. thumbnail:: ../../images/x-pack/xpack1.png
-        :title: Data flow
+        :title: Configure through Kibana 1
         :align: center
         :width: 40%
 
 2. Go to Management > Security > Roles:
 
     .. thumbnail:: ../../images/x-pack/xpack2.png
-        :title: Data flow
+        :title: Configure through Kibana 2
         :align: center
         :width: 100%
 
 3. Creating the **wazuh-admin** role:
 
     .. thumbnail:: ../../images/x-pack/xpack3.png
-        :title: Data flow
+        :title: Configure through Kibana 3
         :align: center
         :width: 100%
 
 4. Creating the **wazuh-basic** role:
 
     .. thumbnail:: ../../images/x-pack/xpack4.png
-        :title: Data flow
+        :title: Configure through Kibana 4
         :align: center
         :width: 100%
 
 5. Creating the **wazuh-api-admin** role:
 
     .. thumbnail:: ../../images/x-pack/xpack5.png
-        :title: Data flow
+        :title: Configure through Kibana 5
         :align: center
         :width: 100%
 
 6. Go to Management > Security > Users:
 
     .. thumbnail:: ../../images/x-pack/xpack6.png
-        :title: Data flow
+        :title: Configure through Kibana 6
         :align: center
         :width: 100%
 
 7. Creating the Wazuh API manager user:
 
     .. thumbnail:: ../../images/x-pack/xpack7.png
-        :title: Data flow
+        :title: Configure through Kibana 7
         :align: center
         :width: 100%
 
@@ -201,7 +201,7 @@ How to configure through Kibana with the `elastic` user
     .. note:: This user is not able to add/remove/edit a Wazuh API, use the Wazuh API manager user instead (step 7).
 
     .. thumbnail:: ../../images/x-pack/xpack8.png
-        :title: Data flow
+        :title: Configure through Kibana 8
         :align: center
         :width: 100%
 
@@ -210,7 +210,7 @@ How to configure through Kibana with the `elastic` user
     .. note:: Ensure the password is enough strong, it will be the superuser for your environment.
 
     .. thumbnail:: ../../images/x-pack/xpack9.png
-        :title: Data flow
+        :title: Configure through Kibana 9
         :align: center
         :width: 100%
 
@@ -230,8 +230,8 @@ How to configure through Kibana with the `elastic` user
         # systemctl restart kibana
 
 
-How to configure out of Kibana with the `elastic` user
-------------------
+How to configure using the command line
+-----------------------------------------
 
 .. note:: Before configure the roles and users you must to install X-Pack.
 
@@ -355,14 +355,14 @@ After follow every step on this tutorial, I've logged in through the Kibana UI w
 user and I can see this banner:
 
 .. thumbnail:: ../../images/x-pack/xpack12.png
-    :title: Data flow
+    :title: xPackMonitoring.showBanner 1
     :align: center
     :width: 100%
 
 If I click on the `Dismiss` button it throws an error:
 
 .. thumbnail:: ../../images/x-pack/xpack13.png
-    :title: Data flow
+    :title: xPackMonitoring.showBanner 2
     :align: center
     :width: 100%
 
@@ -371,14 +371,14 @@ with a higher privileges user to click on the `Dismiss` button like we did to ad
 to do it or use the `elastic` user and go to Management > Kibana > Advanced settings as follow:
 
 .. thumbnail:: ../../images/x-pack/xpack10.png
-    :title: Data flow
+    :title: xPackMonitoring.showBanner 3
     :align: center
     :width: 100%
 
 You should see a list with many options, disable the xPackMonitoring.showBanner option as follow:
 
 .. thumbnail:: ../../images/x-pack/xpack11.png
-    :title: Data flow
+    :title: xPackMonitoring.showBanner 4
     :align: center
     :width: 100%
 
@@ -418,3 +418,16 @@ Now assign it to your desired user(s) as follow:
 
         {"user":{"created":false}} // If the user did exist previously
 
+What's happening with the index pattern selector?
+-------------------------------------------------
+
+Since our last Wazuh App package, the index pattern list is calculated from the server and it's filtered 
+depending on the user role. It means the user can only select the index pattern(s) who it's able to see.
+
+If the list for the user is empty, it can't navigate through the Wazuh App and it will see a message saying
+it has no privileges to see anything on the Wazuh App.
+
+.. thumbnail:: ../../images/x-pack/xpack14.png
+    :title: Index pattern selector
+    :align: center
+    :width: 100%
