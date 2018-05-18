@@ -116,8 +116,15 @@ Pip
 
 Pip can be used as Python package manager to install the required module. In order to use it, we will start installing this tool.
 
+
 a) CentOS/RHEL/Fedora:
 
+Enable EPEL repo
+
+.. code-block:: console
+
+   # yum --enablerepo=extras install epel-release
+   
 .. code-block:: console
 
     # yum install python-pip
